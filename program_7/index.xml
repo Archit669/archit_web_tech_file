@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<students>
+    <student>
+        <enrollment_number>07220802721</enrollment_number>
+        <name>Archit Jain</name>
+        <mobile_number>9876543210</mobile_number>
+        <email>archit@gmail.com</email>
+    </student>
+    <student>
+        <enrollment_number>07320802722</enrollment_number>
+        <name>Deepika Patel</name>
+        <mobile_number>1234567890</mobile_number>
+        <email>deepika.patel@example.com</email>
+    </student>
+</students>

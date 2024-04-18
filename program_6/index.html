@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Information Form</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* height: 100vh; */
+        margin-top: 3rem;
+    }
+
+    .container {
+        max-width: 800px;
+        padding: 20px;
+        border-radius: 5px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    form {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    select {
+        width: calc(100% - 22px);
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    select {
+        width: 100%;
+    }
+
+    input[type="submit"] {
+        margin-top: 20px;
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    #userInfoDisplay {
+        width: calc(100% - 22px);
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+        resize: none;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <form id="userForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="mobile">Mobile No:</label>
+        <input type="tel" id="mobile" name="mobile" required>
+
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+        </select>
+
+        <label for="color">Favourite Colour:</label>
+        <input type="color" id="color" name="color">
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <textarea id="userInfoDisplay" rows="5" readonly></textarea>
+
+    <table id="userData">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Mobile No</th>
+                <th>Gender</th>
+                <th>Favourite Colour</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be dynamically inserted here -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    document.getElementById('userForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var userInfo = {
+            name: document.getElementById('name').value.trim(),
+            email: document.getElementById('email').value.trim(),
+            mobile: document.getElementById('mobile').value.trim(),
+            gender: document.getElementById('gender').value,
+            color: document.getElementById('color').value
+        };
+
+        var userInfoText = "";
+        for (var key in userInfo) {
+            userInfoText += key.charAt(0).toUpperCase() + key.slice(1) + ": " + userInfo[key] + "\n";
+        }
+        document.getElementById('userInfoDisplay').value = userInfoText;
+
+        var tableRef = document.getElementById('userData').getElementsByTagName('tbody')[0];
+        var newRow = tableRef.insertRow();
+        for (var key in userInfo) {
+            var newCell = newRow.insertCell();
+            newCell.appendChild(document.createTextNode(userInfo[key]));
+        }
+
+        var allRows = JSON.parse(localStorage.getItem('allRows')) || [];
+        allRows.push(userInfo);
+        localStorage.setItem('allRows', JSON.stringify(allRows));
+    });
+
+    window.onload = function() {
+        var allRows = JSON.parse(localStorage.getItem('allRows')) || [];
+        allRows.forEach(function(rowData) {
+            var tableRef = document.getElementById('userData').getElementsByTagName('tbody')[0];
+            var newRow = tableRef.insertRow();
+            for (var key in rowData) {
+                var newCell = newRow.insertCell();
+                newCell.appendChild(document.createTextNode(rowData[key]));
+            }
+        });
+    };
+</script>
+
+</body>
+</html>
